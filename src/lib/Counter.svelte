@@ -1,10 +1,9 @@
 <script>
-  let count = $state(0)
-  const increment = () => {
-    count += 1
-  }
+  let count = $state(0);
+
+  const increment = () => count++;
 </script>
 
-<button onclick={increment}>
-  count is {count}
-</button>
+<h1>Count: {count}</h1>
+
+<button onclick={increment}>Increment</button>
