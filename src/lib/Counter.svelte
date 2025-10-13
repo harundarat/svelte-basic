@@ -11,6 +11,8 @@
   });
 
   const increment = () => count.push(1);
+
+  $inspect(count).with((type, values) => console.info(type, values));
 </script>
 
 <h1>{count.join(" + ")} = {total}</h1>
