@@ -20,6 +20,7 @@ export default defineConfig({
         box: "box.html",
         student: "student.html",
         blog: "blog.html",
+        context_counter: "context-counter.html",
       },
     },
   },
