@@ -56,3 +56,10 @@
         </li>
     {/each}
 </ul>
+
+<style>
+    :global(button) {
+        background-color: springgreen;
+        color: whitesmoke;
+    }
+</style>
