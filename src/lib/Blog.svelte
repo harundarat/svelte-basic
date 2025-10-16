@@ -1,19 +1,21 @@
 <script>
+  import { onMount } from "svelte";
   import Layout from "./Layout.svelte";
+
+  let blog = $state({
+    title: "",
+    content: "",
+    footer: "",
+  });
+
+  onMount(async () => {
+    const response = await fetch("/blog.json");
+    blog = await response.json();
+  });
 </script>
 
-<Layout title="Contoh Blog" footer="2025">
+<Layout title={blog.title} footer={blog.footer}>
   {#snippet content()}
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum numquam ab
-      itaque minima nostrum quaerat vero, reiciendis obcaecati ex voluptas dicta
-      ratione saepe, in consectetur magnam mollitia sit doloribus inventore!
-    </p>
-    <p>
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum dolorem
-      cupiditate molestiae illum possimus corporis. Dolore eius quam corporis
-      assumenda ullam accusamus, quasi expedita nostrum. Cupiditate assumenda
-      non eius adipisci?
-    </p>
+    {@html blog.content}
   {/snippet}
 </Layout>
