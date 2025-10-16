@@ -19,6 +19,7 @@ export default defineConfig({
         time: "time.html",
         box: "box.html",
         student: "student.html",
+        blog: "blog.html",
       },
     },
   },
