@@ -1,65 +1,73 @@
 <script>
-    import EditTodo from "./EditTodo.svelte";
-    import Todo from "./Todo.svelte";
+  import { fade, fly } from "svelte/transition";
+  import EditTodo from "./EditTodo.svelte";
+  import Todo from "./Todo.svelte";
 
-    let data = $state([]);
-    let name = $state("");
+  let data = $state([]);
+  let name = $state("");
 
-    let id = 0;
+  let id = 0;
 
-    const add = (e) => {
-        e.preventDefault();
+  const add = (e) => {
+    e.preventDefault();
 
-        data.push({
-            id: id++,
-            name: name,
-        });
-        name = "";
-    };
+    data.push({
+      id: id++,
+      name: name,
+    });
+    name = "";
+  };
 
-    const remove = (id) => {
-        data = data.filter((todo) => todo.id !== id);
-    };
+  const remove = (id) => {
+    data = data.filter((todo) => todo.id !== id);
+  };
 
-    const edit = (id) => {
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].id === id) {
-                data[i] = { ...data[i], edit: true };
-            }
-        }
-    };
+  const edit = (id) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id === id) {
+        data[i] = { ...data[i], edit: true };
+      }
+    }
+  };
 
-    const onEdit = (id, name) => {
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].id === id) {
-                data[i] = { id, name, edit: false };
-            }
-        }
-    };
+  const onEdit = (id, name) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id === id) {
+        data[i] = { id, name, edit: false };
+      }
+    }
+  };
 </script>
 
 <form>
-    <input type="text" id="todo" bind:value={name} />
-    <button onclick={add}>Add</button>
+  <input type="text" id="todo" bind:value={name} />
+  <button onclick={add}>Add</button>
 </form>
 
 <ul>
-    {#each data as todo (todo.id)}
-        <li>
-            {#if todo.edit}
-                <EditTodo id={todo.id} name={todo.name} onedit={onEdit} />
-            {:else}
-                <Todo {...todo} />
-                <button onclick={() => edit(todo.id)}>Edit</button>
-                <button onclick={() => remove(todo.id)}>Remove</button>
-            {/if}
-        </li>
-    {/each}
+  {#each data as todo (todo.id)}
+    <li
+      in:fly={{ y: -200, duration: 1000 }}
+      out:fly={{ y: 200, duration: 1000 }}
+      onintrostart={() => console.info("intro started")}
+      onintroend={() => console.info("intro ended")}
+      onoutrostart={() => console.info("outro started")}
+      onoutroend={() => console.info("outro ended")}
+    >
+      {#if todo.edit}
+        <EditTodo id={todo.id} name={todo.name} onedit={onEdit} />
+      {:else}
+        <Todo {...todo} />
+        <button onclick={() => edit(todo.id)}>Edit</button>
+        <button onclick={() => remove(todo.id)}>Remove</button>
+      {/if}
+    </li>
+  {/each}
 </ul>
 
 <style>
-    :global(button) {
-        background-color: springgreen;
-        color: whitesmoke;
-    }
+  :global(button) {
+    background-color: springgreen;
+    color: whitesmoke;
+  }
 </style>
